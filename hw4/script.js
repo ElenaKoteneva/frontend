@@ -1,13 +1,161 @@
-import { greet } from "./modules/greet.js";
-import { myName } from "./modules/greet.js";
+//hw5
+let task1 = {
+    name: "Покушать",
+    completed: false
+}
 
-import { celsiusToFahrenheit } from "./modules/temperature.js"
-import { calculateFallDistance } from "./modules/fallDistance.js"
-import { calculateAverage } from "./modules/average.js"
-import { concatStrings } from "./modules/strings.js"
+let task2 = {
+    name: "Сделать ДЗ",
+    completed: false
+}
 
-greet(myName);
-celsiusToFahrenheit(25);
-calculateFallDistance(1);
-calculateAverage(1, 2, 3);
-concatStrings("Привет", "мир");
+let task3 = {
+    name: "Погулять",
+    completed: true
+}
+
+let taskList = [task1, task2, task3]; // Массив для хранения списка задач
+// let taskList = []; 
+/**
+ * showTaskList
+ */
+ function showTaskList()
+ {
+     if (taskList.length === 0)
+     {
+         alert("У вас нет задач");
+     }
+     else
+     {
+         const result = taskList.reduce
+         (
+             (acc, item, index) => acc + `${index + 1}. ${item.name} ${item.completed ? "+" : "-"} \n`,
+             "Ваши задачи: \n"
+         );
+         alert(result);
+     }
+ }
+
+/**
+ * addTask
+ * @returns true if task was added or false else
+ */
+function addTask()
+{
+    const newTaskName = prompt("Введите задачу");
+    if (newTaskName)
+    {
+        let newTask = {
+            name: newTaskName,
+            completed: false
+        }
+        taskList.push(newTask);
+        showTaskList();
+        return true;
+    } 
+    else
+    {
+        alert("Задание не может быть пустым");
+        return false;
+    }
+}
+
+/**
+ * removeTask
+ * @returns true if successfull or false else
+ */
+function removeTask()
+{
+    if (taskList.length === 0)
+    {
+        alert("У вас нет задач.");
+        return false;
+    }
+    showTaskList();
+    const taskName = prompt("Введите название задачи для удаления");
+
+    if (taskName == 0)
+    {
+        alert("Задание не может быть пустым");
+        return false;
+    }
+
+    const deletedIndex = taskList.findIndex(item => item.name === taskName);
+
+    if (deletedIndex === -1)
+    {
+        alert("Задание не найдено");
+        return false;
+    }
+
+    const deletedTask = taskList.splice(deletedIndex, 1); // Удаляет элемент
+    alert(`Вы удалили задачу ${deletedTask[0].name}`);
+    showTaskList();
+    return true;
+}
+
+/**
+ * checkedTask
+ * @returns true if successfull or false else
+ */
+ function checkedTask()
+ {
+    if (taskList.length === 0)
+    {
+        alert("У вас нет задач.");
+        return false;
+    }
+
+    showTaskList();
+    const taskName = prompt("Введите название выполненной задачи");
+     
+    if (taskName == 0)
+    {
+        alert("Задание не может быть пустым");
+        return false;
+    }
+
+    const changeIndex = taskList.findIndex(item => item.name === taskName);
+
+    if (changeIndex === -1)
+    {
+        alert("Задание не найдено");
+        return false;
+    }
+   
+    taskList[changeIndex].completed = true;
+    showTaskList();
+    return true;
+ }
+
+ function main()
+ {
+    let choice = null;
+
+    do
+    {
+        choice = +prompt("Выберите действие: \n 1: Показать задачи\n 2: Добавить задачу \n 3: Пометить выполненную задачу \n 4: Удалить задачу \n 0: Выход")
+        switch (choice) {
+            case 0:
+                alert("Выход из программы");
+                break;
+            case 1:
+                showTaskList();
+                break;
+            case 2:
+                addTask();
+                break;
+            case 3:
+                checkedTask();
+                break;
+            case 4:
+                removeTask();
+                break;
+            default:
+                alert("Некорректный выбор");
+                break;
+        }
+    } while (choice !== 0);
+ }
+
+main();
